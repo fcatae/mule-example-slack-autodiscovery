@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: Notification API
+mediaType:
+  - application/json
+version: 1.0
+protocols:
+  - HTTP
+/notify:
+  post:
+    displayName: Send a notification
+    body:
+      example:
+        strict: true
+        value:
+          text: hello world
+      type: object
+    responses:
+      "200": {}
