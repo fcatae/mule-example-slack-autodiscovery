@@ -20,3 +20,14 @@ Add `chat.write.bot` scope
 ## Configure Connector ##
 
 Use a `Chat Post Message` with authentication method `1 Token Connection`
+
+# Autodiscovery #
+
+Setup API Manager to find out AppId
+
+Configure XML Autodiscovery
+
+Configure properties:
+- anypoint.platform.client_id=XXXXXXX
+- anypoint.platform.client_secret=XXXXXX
+
