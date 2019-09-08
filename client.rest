@@ -2,5 +2,5 @@ POST http://localhost:8081/api/notify
 Content-Type: application/json
 
 {
-    "text": "message"
+    "text": "hello world"
 }
