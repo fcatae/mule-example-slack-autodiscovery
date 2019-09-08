@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:slack="http://www.mulesoft.org/schema/mule/slack" 
-	xsi:schemaLocation="
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:slack="http://www.mulesoft.org/schema/mule/slack" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/slack http://www.mulesoft.org/schema/mule/slack/current/mule-slack.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
     <http:listener-config name="notification-api-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
@@ -17,4 +19,18 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<slack:token-connection token="${slack.token}" />
 	</slack:config>
 	<configuration-properties doc:name="Configuration properties" doc:id="199d5a10-45ba-4268-a166-f716fff8c8f9" file="default-config.yaml" />
+	<api-gateway:autodiscovery apiId="${appId}" doc:name="API Autodiscovery" doc:id="db56739b-4bc2-40ef-a525-296b94e00caf" flowRef="notification-api-main" />
+	<flow name="configFlow" doc:id="102d7232-66ee-4b69-911c-e102cde76f20" >
+		<http:listener doc:name="GET /config" doc:id="3c96d700-f2da-49c9-b8c8-8a41b456f5a3" config-ref="notification-api-httpListenerConfig" path="/config"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a62621fd-35c5-450f-9625-de57ab43e43a" message="${appId}"/>
+		<ee:transform doc:name="Transform Message" doc:id="afb60d54-67bc-4db5-9686-016245ce9455" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
 	</mule>

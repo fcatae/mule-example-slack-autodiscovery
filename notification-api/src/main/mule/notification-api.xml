@@ -128,7 +128,8 @@ output application/json
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/java
 ---
-payload.text default payload]]></ee:set-payload>
+payload.text
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<slack:post-message doc:name="Chat - Post Message" doc:id="6bbd7d21-2cb6-4f58-90c1-e70e26d5e7c8" config-ref="Slack_Config" channel="salesforce">
